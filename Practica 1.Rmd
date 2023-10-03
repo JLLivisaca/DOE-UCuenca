@@ -1,0 +1,77 @@
+---
+title: "Práctica 1"
+author: "Juan Llivisaca"
+date: "2023-10-03"
+output: word_document
+---
+
+# Prueba de hipótesis 
+
+
+```{r}
+#### Primer paso ####
+# Ho : miu = 2.3 
+# Ha : miu >2.3
+
+#### Segundo paso ####
+
+# alfa = 0.05
+
+#### Tercer paso ####
+
+# Estadístico de prueba 
+# Tomando en consideración el N(número de datos)., se elige el estadístico Z
+
+media.muestral <-  2.4
+desv.muestral <- 0.28
+n.datos <- 40
+miu_o <-  2.3
+(Z.calculado <-  (media.muestral- miu_o)/ (desv.muestral/sqrt(n.datos)))
+# Z de alfa 
+(Zalfa <- qnorm(c(0.05), mean = 0, sd= 1, lower.tail = F))
+
+#### Cuarto paso ####
+
+(Decision <- Zalfa < Z.calculado)
+# Por lo tanto, se rechaza Ho
+
+
+```
+Realizando la prueba de hipótesis se pudo comprabar que la media muestral es mayor a 2.3, con un alfa de 0.05, que es lo mismo a tener un nivel de confianza del 95%.
+
+# Segundo ejemplo para prueba de hipótesis de la media para una muestra
+
+```{r}
+
+library(datos)
+df <-  millas
+
+# Se va a determinar si la media muestral de la cilindrada de mi base, es inferior a 3.5 
+
+#### Primer paso ####
+# Ho : miu = 3.5 
+# Ha : miu < 3.5
+
+#### Segundo paso ####
+
+# alfa = 0.01
+
+#### Tercer paso ####
+
+# Estadístico de prueba 
+# Tomando en consideración el N(número de datos)., se elige el estadístico Z
+
+t.test(df$cilindrada,mu=3.5, lower.tail=F)
+
+# p valor menor al alfa, se rechaza Ho 
+
+```
+
+```{r}
+qnorm(c(0.05), mean=0, sd=1, lower.tail=TRUE)
+with(df, (t.test(cilindrada, alternative='less', 
+  mu=0.0, conf.level=.99)))
+
+```
+
+En los datos de la mieda de cilindrada se conoce que la media es menor a 3.5 con un alfa de 0.01 y un nivel de confianza de 99%. (Es la conclusión). Revisar el código si hay dudas.
