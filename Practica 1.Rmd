@@ -75,3 +75,37 @@ with(df, (t.test(cilindrada, alternative='less',
 ```
 
 En los datos de la mieda de cilindrada se conoce que la media es menor a 3.5 con un alfa de 0.01 y un nivel de confianza de 99%. (Es la conclusión). Revisar el código si hay dudas.
+
+#Tercer ejercicio
+
+Un nuevo diseño del sistema de frenos de un cierto tipo de carro ha sido propuesto. Para el sistema actual, se sabe que la distancia de frenado promedio verdadera a 40 mph en condiciones específicas es de 120 pies. Se propone que el nuevo diseño sea implementado sólo si los datos muestrales indican fuertemente una reducción de la distancia de frenado promedio verdadera del nuevo diseño.
+a. Defina el parámetro de interés y formule las hipótesis
+pertinentes.
+b. Suponga que la distancia de frenado del nuevo sistema
+está normalmente distribuido con   10. Sea X la dis-
+tancia de frenado promedio de una muestra de 36 obser-
+vaciones. ¿Cuáles de las siguientes regiones de rechazo
+es apropiada: R1  {x: x  124.80}, R2  {x: x 
+115.20}, R3 = {x: o x  125.13 o x  114.87}?
+c. ¿Cuál es el nivel de significación de la región apropiada
+de la parte (b)? ¿Cómo cambiaría la región para obtener
+una prueba con   0.001?
+d. ¿Cuál es la probabilidad de que el nuevo diseño no sea
+implementado cuando la distancia de frenado promedio
+verdadera sea en realidad de 115 pies y la región apro-
+piada de la parte (b) sea utilizada? 
+e. Sea Z  (X  120)/(/n). ¿Cuál es el nivel de signifi-
+cación de la región de rechazo {z: z  2.33}? ¿Para la
+región {z: z  2.88}? 
+```{r}
+# Defina el parámetro de interés y formule las hipótesis pertinentes
+# El parámetro a analizar es la media de distancia de frenado 
+
+#### Primer paso Hipótesis ####
+# Ho : COLOCAR LAS HIPÓTESIS
+# Ha : COLOCAR LAS HIPÓTESIS
+
+
+
+```
+
