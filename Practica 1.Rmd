@@ -126,4 +126,20 @@ miu_o <-  120
 #CONCLUSIÓN
 
 ```
+```{r}
+# Grafica
+library(Rcmdr)
+library(RcmdrMisc)
+local({
+  .x <- seq(-3.291, 3.291, length.out=1000)  
+  plotDistr(.x, dnorm(.x, mean=0, sd=1), cdf=FALSE, xlab="x", 
+  ylab="Density", 
+  main=paste("Gráfica de la distancia de frenado"), 
+  regions=list(c(-Inf, -1.95996398454005)), 
+  col=c('#80FF00', '#FFFF00'), legend.pos='topright')
+})
+abline (v=Z.calculado, col="red", lwd=2)
+
+
+```
 
