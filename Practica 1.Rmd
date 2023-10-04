@@ -103,9 +103,27 @@ región {z: z  2.88}?
 
 #### Primer paso Hipótesis ####
 # Ho : COLOCAR LAS HIPÓTESIS
-# Ha : COLOCAR LAS HIPÓTESIS
+# Ha : COLOCAR LAS HIPÓTESIS  R2  {x: x<= 115.20}
 
+#### Segundo paso ####
+# alfa = 0.05 
 
+#### Tercer paso ####
+
+# Estadístico a elegir Z, porque se tiene más de 30 datos
+
+media.muestral <-  115
+desv.muestral <- 10
+n.datos <- 36
+miu_o <-  120
+(Z.calculado <-  (media.muestral- miu_o)/ (desv.muestral/sqrt(n.datos)))
+# Z de alfa 
+(Zalfa <- qnorm(c(0.05), mean = 0, sd= 1, lower.tail = T))
+#### Cuarto paso ####
+# DECISIÓN 
+
+#### QUINTO PASO ####
+#CONCLUSIÓN
 
 ```
 
