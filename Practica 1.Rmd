@@ -206,8 +206,64 @@ abline (v=Z.calculado, col="red", lwd=2)
 ```
 
 
+#Intervalo de Confianza
+
+```{r}
+# Intervalo de confianza es para la diferencia de medias
+
+# Intervalo 1
+
+(Zalfa.medios <- qnorm(c(0.025), mean = 0, sd= 1, lower.tail = F))
+
+(Intervlo.1 <- diferencia.de.medias - Zalfa.medios* sqrt((varianza.muestral.hombres/ n.datos.hombres)+ (varianza.muestral.mujeres/ n.datos.mujeres)))
+
+# Intervalo 2
+
+(Intervlo.2 <- diferencia.de.medias + Zalfa.medios* sqrt((varianza.muestral.hombres/ n.datos.hombres)+ (varianza.muestral.mujeres/ n.datos.mujeres)))
+
+```
+
+#Prueba de hipótesis para la propoción (una muestra)
+
+```{r}
+#### Primer paso Hipótesis ####
+
+# Ho : p = po (que la proporción de exitos es igual a 0.4)
+# Ha : p ≠  po (que la proporción de exitos es diferente a 0.4)
+
+#### Segundo paso ####
+# alfa = 0.1
+
+#### Tercer paso ####
+
+# Estadístico a elegir Z, porque se tiene más de 30 datos
+
+media.muestral.proporción <-  150/400
+desv.muestral.proporción <- sqrt((150/400) * (250/400))
+n.datos <- 400
+miu_o <-  0.4
+(Z.calculado <-  (media.muestral.proporción- miu_o)/ (desv.muestral.proporción/sqrt(n.datos)))
+# Z de alfa 
+(Zalfa.proporción.1 <- qnorm(c(0.05), mean = 0, sd= 1, lower.tail = T))
+(Zalfa.proporción.2 <- qnorm(c(0.05), mean = 0, sd= 1, lower.tail = F))
+
+#### Cuarto paso ####
+
+local({
+  .x <- seq(-3.291, 3.291, length.out=1000)  
+  plotDistr(.x, dnorm(.x, mean=0, sd=1), cdf=FALSE, xlab="x", 
+  ylab="Density", 
+  main=paste("Gráfica de la proporción de éxitos"), 
+  regions=list(c(-Inf, Zalfa.proporción), c(Zalfa.proporción.2, Inf)), 
+  col=c('#80FF00', '#FFFF00'), legend.pos='topright')
+})
+abline (v=Z.calculado, col="red", lwd=2)
 
 
+#### QUINTO PASO ####
+#CONCLUSIÓN
+
+```
 
 
 
