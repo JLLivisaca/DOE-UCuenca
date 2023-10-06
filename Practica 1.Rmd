@@ -143,3 +143,71 @@ abline (v=Z.calculado, col="red", lwd=2)
 
 ```
 
+#Prueba de hipótesis para dos muestras 
+
+Ejemplo: 
+
+¿Se aburren más fácil los estudiantes universitarios que sus
+contrapartes femeninas? Esta pregunta se examinó en el ar-
+tículo “Boredom in Young Adults-Gender and Cultural
+Comparisons” (J. of Cross-Cultural Psych., 1991: 209-223).
+Los autores aplicaron una escala llamada Boredom Proneness
+Scale a 97 estudiantes universitarios y a 148 estudiantes univer-
+sitarias. ¿Apoyan los datos adjuntos la hipótesis de investiga-
+ción de que la calificación media de tendencia al aburrimiento
+es más alta para hombres que para mujeres? Pruebe las hipóte-
+sis apropiadas con nivel de significación de 0.05.
+
+
+```{r}
+#### Primer paso ####
+# Ho : miu_h = miu_m (La hipótesis indica que la media de la calificación de tendica al aburrimiento es igual en hombres y mujeres)
+# Ha : miu_h > miu_m (La hipótesis indica que la media de la calificación de tendica al aburrimiento en hombres es mayor que en mujeres)
+
+#### Segundo paso ####
+
+# alfa = 0.05 (nivel de significancia)
+
+#### Tercer paso ####
+
+# Estadístico de prueba 
+# Tomando en consideración el N(número de datos)., se elige el estadístico Z
+
+media.muestral.hombres <-  10.4
+media.muestral.mujeres <-  9.26
+varianza.muestral.hombres <- (4.83)^2
+varianza.muestral.mujeres <- (4.68)^2
+
+n.datos.hombres <- 97
+n.datos.mujeres <- 148
+diferencia.de.medias <- media.muestral.hombres - media.muestral.mujeres
+
+(Z.calculado <-  (diferencia.de.medias - 0)/ sqrt((varianza.muestral.hombres/ n.datos.hombres)+ (varianza.muestral.mujeres/ n.datos.mujeres)))
+
+# Z de alfa 
+(Zalfa <- qnorm(c(0.05), mean = 0, sd= 1, lower.tail = F))
+
+#### Cuarto paso ####
+library(Rcmdr)
+library(RcmdrMisc)
+local({
+  .x <- seq(-3.291, 3.291, length.out=1000)  
+  plotDistr(.x, dnorm(.x, mean=0, sd=1), cdf=FALSE, xlab="x", 
+  ylab="Density", 
+  main=paste("Gráfica de la media de aburrimiento en estudiantes"), 
+  regions=list(c(Zalfa, Inf)), 
+  col=c('#80FF00', '#FFFF00'), legend.pos='topright')
+})
+abline (v=Z.calculado, col="red", lwd=2)
+
+
+# Por lo tanto, se rechaza Ho
+
+```
+
+
+
+
+
+
+
