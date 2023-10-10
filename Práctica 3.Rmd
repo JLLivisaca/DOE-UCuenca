@@ -1,0 +1,142 @@
+---
+title: "Práctia 3"
+author: "Juan Llivisaca"
+date: "2023-10-10"
+output: word_document
+---
+
+#Prueba de hipótesis para dos proporciones
+```{r}
+####Liberarías####
+library(Rcmdr)
+library(RcmdrMisc)
+library(readxl)
+
+```
+
+
+```{r}
+#### Primer paso Hipótesis ####
+
+# Ho : p1 - p2 = 0 (la diferencia de la proporción de los artículos defectuosos antes y después de la modificación) 
+# Ha : p1 >  p2 (que la proporción de artículo defectuosos antes de la modificación sea mayor a la proporción de artículos defectuosos después de la modificación)
+
+#### Segundo paso ####
+# alfa = 0.01
+
+#### Tercer paso ####
+
+# Estadístico a elegir Z, porque se tiene más de 30 datos
+
+media.muestral.proporción.1 <-  108/200
+media.muestral.proporción.2 <-  96/300
+diferencia.proporcioes <-  media.muestral.proporción.1 - media.muestral.proporción.2
+n.datos.1 <- 200
+n.datos.2 <-300
+desv.muestral.proporción <- sqrt(((media.muestral.proporción.1 * (92/200))/ n.datos.1)+ ((media.muestral.proporción.2 * (204/300))/ n.datos.2))
+
+miu_o <-  0
+
+(Z.calculado <-  (diferencia.proporcioes - miu_o)/ desv.muestral.proporción)
+# Z de alfa 
+(Zalfa.proporción.1 <- qnorm(c(0.005), mean = 0, sd= 1, lower.tail = T))
+(Zalfa.proporción.2 <- qnorm(c(0.005), mean = 0, sd= 1, lower.tail = F))
+
+#### Cuarto paso ####
+
+local({
+  .x <- seq(-6.291, 6.291, length.out=1000)  
+  plotDistr(.x, dnorm(.x, mean=0, sd=1), cdf=FALSE, xlab="x", 
+  ylab="Density", 
+  main=paste("Gráfica de la proporción de éxitos antes y después de la mejora en un proceso"), 
+  regions=list(c(-Inf, Zalfa.proporción.1), c(Zalfa.proporción.2, Inf)), 
+  col=c('#80FF00', '#FFFF00'), legend.pos='topright')
+})
+abline (v=Z.calculado, col="red", lwd=2)
+
+
+#### QUINTO PASO ####
+#CONCLUSIÓN
+
+```
+
+
+#Intervalo de confianza para dos proporciones. 
+
+```{r}
+
+media.muestral.proporción.1 <-  108/200
+media.muestral.proporción.2 <-  96/300
+diferencia.proporcioes <-  media.muestral.proporción.1 - media.muestral.proporción.2
+n.datos.1 <- 200
+n.datos.2 <-300
+desv.muestral.proporción <- sqrt(((media.muestral.proporción.1 * (92/200))/ n.datos.1)+ ((media.muestral.proporción.2 * (204/300))/ n.datos.2))
+
+
+# Z de alfa 
+(Zalfa.medios.proporción.1 <- qnorm(c(0.01), mean = 0, sd= 1, lower.tail = T))
+(Zalfa.medios.proporción.2 <- qnorm(c(0.01), mean = 0, sd= 1, lower.tail = F))
+
+#Intervalo 1 
+(Intervalo.1 <-  diferencia.proporcioes + Zalfa.medios.proporción.1*desv.muestral.proporción)
+
+#Intervalo 2 
+(Intervalo.2 <-  diferencia.proporcioes - Zalfa.medios.proporción.1*desv.muestral.proporción)
+
+
+```
+```{r}
+local({
+  .x <- seq(-4.587, 4.587, length.out=1000)  
+  plotDistr(.x, dt(.x, df=10), cdf=FALSE, xlab="x", ylab="Density", 
+  main=paste("t Distribution:  Degrees of freedom=10"), 
+  regions=list(c(-Inf, -1.81246112281168), c(1.81246112281168, Inf)), 
+  col=c('#BEBEBE', '#00FFFF'), legend.pos='topright')
+})
+```
+#Prueba de hipótesis para muestras pequeñas
+
+```{r}
+#### Primer paso Hipótesis ####
+
+# Ho : miu1 = miu2 (que la media de la población 1 es igual a la media de la población 2)
+# Ha : miu 1 > miu2 (que la media de la población 1 es mayor a la media de la población 2)
+
+#### Segundo paso ####
+# alfa = 0.05
+
+#### Tercer paso ####
+
+# Estadístico a elegir Z, porque se tiene más de 30 datos
+
+
+media.muestral.1 <-  mean(14,10,8, 12)
+media.muestral.2 <-  mean(12,9,7,10,6)
+v1 <- c(14,10,8,12)
+v2 <- c(12,9,7,10,6)
+varianza.muestral.1 <- var(v1)
+varianza.muestral.2 <- var(v2)
+
+n.datos.1 <- 4
+n.datos.2 <- 5
+diferencia.de.medias <- media.muestral.1 - media.muestral.2
+Sx1.x2 <-  1.6587
+
+(t.calculado <-  (diferencia.de.medias - 0)/ Sx1.x2 )
+
+# T de alfa 
+(Talfa <- qt(c(0.025), df=7, lower.tail = F))
+
+#### Cuarto paso ####
+
+
+
+
+#### QUINTO PASO ####
+
+#CONCLUSIÓN
+
+```
+
+
+
