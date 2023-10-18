@@ -1,0 +1,48 @@
+---
+title: "Práctica 5 - Anova"
+author: "Juan Llivisaca"
+date: "2023-10-13"
+output: word_document
+---
+#PROBLEMA PARA ANOVA
+
+
+```{r}
+#librerías
+library(Rcmdr)
+library(RcmdrMisc)
+library(readxl)
+```
+
+
+```{r}
+# Ingreso de datos 
+fertilizante <- 
+  readXL("C:/Users/Juan Llivisaca/OneDrive/Documents/GitHub/estadistica-inferencia/DOE-UCuenca/Datos para ejer 1 ANOVA.xlsx",
+   rownames=FALSE, header=TRUE, na="", sheet="Hoja1", stringsAsFactors=TRUE)
+
+# Prueba ANOVA
+library(mvtnorm, pos=17)
+library(survival, pos=17)
+library(MASS, pos=17)
+library(TH.data, pos=17)
+library(multcomp, pos=17)
+library(abind, pos=22)
+AnovaModel.1 <- aov(Num_Productos ~ Fertilizante, data=fertilizante)
+summary(AnovaModel.1)
+with(fertilizante, numSummary(Num_Productos, groups=Fertilizante, 
+  statistics=c("mean", "sd")))
+local({
+  .Pairs <- glht(AnovaModel.1, linfct = mcp(Fertilizante = "Tukey"))
+  print(summary(.Pairs)) # pairwise tests
+  print(confint(.Pairs, level=0.95)) # confidence intervals
+  print(cld(.Pairs, level=0.05)) # compact letter display
+  old.oma <- par(oma=c(0, 5, 0, 0))
+  plot(confint(.Pairs))
+  par(old.oma)
+})
+oneway.test(Num_Productos ~ Fertilizante, data=fertilizante) # Welch test
+
+
+```
+

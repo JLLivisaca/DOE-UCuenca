@@ -1,0 +1,82 @@
+---
+title: "Practica 6"
+author: "Juan Llivisaca"
+date: "2023-10-17"
+output: word_document
+---
+
+#Anova 
+
+```{r}
+library(PASWR)
+datos <-  Drosophila
+??Drosophila
+
+# Anova 
+# Ho: Media de la fecundidad de los huevos puestos en el grupo de resistant es igual a la media de la fecundidad de los huevos puestos por el grupo Susceptible y es igual a Media de la fecundidad de los huevos puestos en el grupo de Noselected
+#Ha : al menos una media es diferente
+# alfa = 0.05 
+
+# Estadístico de prueba 
+# F 
+
+modelo.1 <-  aov(datos$Fecundity ~ datos$Line)
+summary(modelo.1)
+# F = 8.666 
+# Decisión
+
+# P valor 
+
+# 0.000424
+
+# Comparo el p valor con el alfa 
+# Rechazo Ho
+
+oneway.plots(datos$Fecundity, datos$Line)
+
+
+```
+
+
+#Comparaciones multiples
+
+```{r}
+(pairw.anova(x=Line, y=Fecundity, conf.level = 0.95, method="tukey")) # COmparación con Tukey
+(pairw.anova(x=Line, y=Fecundity, conf.level = 0.95, method="lsd")) # COmparación con Tukey
+
+```
+
+
+#Supuestos del anova
+
+```{r}
+# Normalidad 
+# Prueba de normalidad 
+# Kolmogorov- Simirnov (datos son mayores a 50)
+# Anderson Darling (datos son mayores a 50)
+# Shapiro - Wilks (datos son menores a 50)
+# Los datos en rangos en clases, 
+# # Chi cuadrado 
+# cuando los datos son independientes, son univariantes. 
+
+# Kolmogorov 
+
+library(nortest)
+
+lillie.test(modelo.1$residuals)
+
+# Homocedasticidad, igualdad de varianzas
+library(lmtest)
+
+hmctest(modelo.1$residuals ~ datos$Line)
+
+plot(modelo.1)
+
+# Linealidad 
+
+regresion <-  lm(modelo.1$residuals ~ datos$Line)
+summary(regresion)
+
+```
+
+

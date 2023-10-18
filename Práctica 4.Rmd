@@ -1,0 +1,23 @@
+---
+title: "Práctica 4"
+author: "Juan Llivisaca"
+date: "2023-10-11"
+output: word_document
+---
+
+```{r}
+# Grafica de la Distribución F
+local({
+  .x <- seq(0.005, 44.422, length.out=1000)  
+  plotDistr(.x, df(.x, df1=3, df2=5), cdf=FALSE, xlab="x", ylab="Density", 
+  main=paste("F Distribution:  Numerator df = 3, Denominator df = 5"), 
+  regions=list(c(0, 0.110945245903393), c(5.40945131805649, Inf)), 
+  col=c('#BEBEBE', '#00FF00'), legend.pos='topright')
+})
+
+```
+Se tiene v1=3 y v2=5, on un F = 2.35, ¿cuál es la probabilidad?
+
+
+
+
