@@ -20,6 +20,35 @@ library(lmtest)
 #Diseño de cuadrado latino
 
 ```{r}
+library(readxl)
+DCL <- read_excel("DESGASTE_LLANTA_COLUMNAS.xlsx")
+DCL <- within(DCL, {
+  Posicion <- factor(Posicion, labels=c('P1','P2','P3','P4'))
+})
+DCL$Carro <- as.factor(DCL$Carro)
+DCL$Marca <- as.factor(DCL$Marca)
+# Modelo 
+AnovaModel.1 <- (aov(Desgaste ~ Carro+Marca+Posicion, data=DCL))
+Anova(AnovaModel.1)
+TukeyHSD(AnovaModel.1)
+old.oma <- par(oma=c(0,5,0,0))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Carro = "Tukey"))
+confint(.Pairs) # confidence intervals
+
+plot(confint(.Pairs))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Marca = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+remove(.Pairs)
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Posicion = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+mtext('Carro')
+par(old.oma)
+remove(.Pairs)
+
+
+
 
 ```
 
