@@ -1,0 +1,25 @@
+---
+title: "Práctica 8 DCL"
+author: "Juan Llivisaca"
+date: "2023-10-24"
+output: word_document
+---
+
+```{r}
+#### Librerías #####
+library(Rcmdr)
+library(RcmdrPlugin.doex)
+library(asbio)
+library(readxl)
+library(multcomp)
+library(nortest)
+library(lmtest)
+####
+```
+
+#Diseño de cuadrado latino
+
+```{r}
+
+```
+
