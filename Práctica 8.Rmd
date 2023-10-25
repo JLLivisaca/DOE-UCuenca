@@ -47,6 +47,34 @@ mtext('Carro')
 par(old.oma)
 remove(.Pairs)
 
+# Manteniendo columna pivot
+
+library(readxl)
+DCL <- read_excel("DESGASTE_LLANTA_COLUMNAS.xlsx")
+DCL <- within(DCL, {
+  Posicion <- factor(Posicion, labels=c('P1','P2','P3','P4'))
+})
+DCL$Carro <- as.factor(DCL$Carro)
+DCL$Marca <- as.factor(DCL$Marca)
+# Modelo 
+AnovaModel.1 <- (aov(Desgaste ~ Carro+Marca+Posicion, data=DCL))
+Anova(AnovaModel.1)
+TukeyHSD(AnovaModel.1)
+old.oma <- par(oma=c(0,5,0,0))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Carro = "Tukey"))
+confint(.Pairs) # confidence intervals
+
+plot(confint(.Pairs))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Marca = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+remove(.Pairs)
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Posicion = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+mtext('Carro')
+par(old.oma)
+remove(.Pairs)
 
 
 
@@ -56,7 +84,7 @@ remove(.Pairs)
 #Aleatorización para un DCL
 library(agricolae)
 varieties<-c("A","B","C","D")
-(outdesign <-design.lsd(varieties,serie=1,seed=13))
+(outdesign <-design.lsd(varieties,serie=3,seed=234))
 lsd <- outdesign$book
 print(outdesign$sketch)
 print(lsd) # field book.
@@ -81,15 +109,41 @@ Aunque no existen normas formales para el poder (a veces referido como π), la m
 library(daewr)
 rmin <-2 #smallest number of replicates considered
 rmax <-6 # largest number of replicates considered
-alpha <- rep(0.05, rmax - rmin +1)
-sigma <-sqrt(2.1)
-nlev <- 3 #the number of levels of the factor
+alpha <- rep(0.01, rmax - rmin +1)
+sigma <-sqrt(3.2242^2)
+nlev <- 4 #the number of levels of the factor (tratamiento)
 nreps <- rmin:rmax
-Delta <- 3 # Variación significativa entre la diferencia de medias detectable
+Delta <- 4 # Variación significativa entre la diferencia de medias detectable
 power <- Fpower1(alpha,nlev,nreps,Delta,sigma)
 power
 ```
 ```{r}
+# Diseño de cuadrado grecolatino
+# Cargar datos
+
+DCGL <- read_excel("Ensamble DCGL.xlsx")
+names(DCGL) <- make.names(names(DCGL))
+AnovaModel.1 <- (aov(Datos ~ Lugar+Metodo+Operador+Orden.ensamble, 
+  data=DCGL))
+Anova(AnovaModel.1)
+TukeyHSD(AnovaModel.1)
+old.oma <- par(oma=c(0,5,0,0))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Lugar = "Tukey"))
+confint(.Pairs) # confidence intervals
+mtext('Lugar')
+plot(confint(.Pairs))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Metodo = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+remove(.Pairs)
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Operador = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+plot(confint(.Pairs))
+par(old.oma)
+remove(.Pairs)
 
 ```
+
+
 
