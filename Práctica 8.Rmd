@@ -83,9 +83,9 @@ rmin <-2 #smallest number of replicates considered
 rmax <-6 # largest number of replicates considered
 alpha <- rep(0.05, rmax - rmin +1)
 sigma <-sqrt(2.1)
-nlev <- 3
+nlev <- 3 #the number of levels of the factor
 nreps <- rmin:rmax
-Delta <- 3
+Delta <- 3 # Variación significativa entre la diferencia de medias detectable
 power <- Fpower1(alpha,nlev,nreps,Delta,sigma)
 power
 ```
