@@ -51,4 +51,42 @@ remove(.Pairs)
 
 
 ```
+#Aleatorización
+```{r}
+#Aleatorización para un DCL
+library(agricolae)
+varieties<-c("A","B","C","D")
+(outdesign <-design.lsd(varieties,serie=1,seed=13))
+lsd <- outdesign$book
+print(outdesign$sketch)
+print(lsd) # field book.
+plots <-as.numeric(lsd[,1])
+print(matrix(plots,byrow = TRUE, ncol = 4))
+# Aleatorización para un DCGL
+
+
+```
+#Número de replicas en un experimento
+
+Para esto, se conoce que se debe considerar el poder de la prueba ANOVA (power of the test). Este poder está relacionado a que se rechace la Ho cuando la hipótesis es falsa. Mientras que el error tipo II, que es no rechazar la hipotésis Ho cuando es falsa (falso negativo)
+El poder de la prueba se relaciona al n y al alfa, entonces con este indicador se puede conocer las replicas a realizar para evitar el error 
+ii (poder de la prueba = 1-beta)
+
+##Interpretación
+
+Aunque no existen normas formales para el poder (a veces referido como π), la mayoría de los investigadores evalúan el poder de sus pruebas con π = 0,80 como un estándar para la adecuación. Este convenio implica un intercambio de cuatro-a-uno entre la β-riesgo y la α-riesgo. (Β es la probabilidad de un error de tipo II; α es la probabilidad de un error de tipo I, 0.2 y 0.05 son valores convencionales para β y α). Sin embargo, habrá ocasiones en que esta ponderación de 4 a 1 es inapropiada. En medicina, por ejemplo, las pruebas son a menudo diseñadas de tal manera que no se producirán falsos negativos (errores de tipo II). Pero esto plantea inevitablemente el riesgo de obtener un falso positivo (un error de tipo I, rechazar Ho cuando es verdadera). La razón es que es mejor decirle a un paciente sano "es posible que hayamos encontrado algo, vamos a probar más", que decirle a un paciente enfermo "todo está bien" 
+
+
+```{r}
+library(daewr)
+rmin <-2 #smallest number of replicates considered
+rmax <-6 # largest number of replicates considered
+alpha <- rep(0.05, rmax - rmin +1)
+sigma <-sqrt(2.1)
+nlev <- 3
+nreps <- rmin:rmax
+Delta <- 3
+power <- Fpower1(alpha,nlev,nreps,Delta,sigma)
+power
+```
 
