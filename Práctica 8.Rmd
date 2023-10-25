@@ -89,4 +89,7 @@ Delta <- 3 # Variación significativa entre la diferencia de medias detectable
 power <- Fpower1(alpha,nlev,nreps,Delta,sigma)
 power
 ```
+```{r}
+
+```
 
