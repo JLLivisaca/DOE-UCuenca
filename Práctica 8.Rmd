@@ -171,6 +171,8 @@ oneway.test(Incremento ~ Cucharidatas, data=POLVO_DE_HORNEAR_ANOVA)
 # Literal c 
 modelo.lineal <-  lm(Incremento ~ Cucharidatas, data=POLVO_DE_HORNEAR_ANOVA)
 summary(modelo.lineal)
+qqplot(POLVO_DE_HORNEAR_ANOVA$rstudent.AnovaModel.1, POLVO_DE_HORNEAR_ANOVA$fitted.AnovaModel.1)
+qqline(POLVO_DE_HORNEAR_ANOVA$fitted.AnovaModel.1)
 
 ```
 
