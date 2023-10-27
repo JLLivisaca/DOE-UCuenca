@@ -145,5 +145,33 @@ remove(.Pairs)
 
 ```
 
+#Ejercicio libro analysis of experiment pp52, 4
+
+```{r}
+library(readxl)
+POLVO_DE_HORNEAR_ANOVA <- read_excel("GitHub/estadistica-inferencia/DOE-UCuenca/POLVO DE HORNEAR - ANOVA.xlsx")
+
+# modelo 
+AnovaModel.1 <- aov(Incremento ~ Cucharidatas, data=POLVO_DE_HORNEAR_ANOVA)
+summary(AnovaModel.1)
+with(POLVO_DE_HORNEAR_ANOVA, numSummary(Incremento, groups=Cucharidatas, 
+  statistics=c("mean", "sd")))
+local({
+  .Pairs <- glht(AnovaModel.1, linfct = mcp(Cucharidatas = "Tukey"))
+  print(summary(.Pairs)) # pairwise tests
+  print(confint(.Pairs, level=0.95)) # confidence intervals
+  print(cld(.Pairs, level=0.05)) # compact letter display
+  old.oma <- par(oma=c(0, 5, 0, 0))
+  plot(confint(.Pairs))
+  par(old.oma)
+})
+oneway.test(Incremento ~ Cucharidatas, data=POLVO_DE_HORNEAR_ANOVA) 
+  # Welch test
+
+# Literal c 
+modelo.lineal <-  lm(Incremento ~ Cucharidatas, data=POLVO_DE_HORNEAR_ANOVA)
+summary(modelo.lineal)
+
+```
 
 
