@@ -35,8 +35,18 @@ Modelo <- lm(Acabado~(Profundidad + velocidad)^2)
 ANOVA <- aov(Modelo)
 summary(ANOVA)
 # otra opición 
-Modelo_1 <-  aov(Acbado~ Profundidad*velocidad)
+Modelo_1 <-  aov(Diseno_2k_con$Acabado ~ Diseno_2k_con$Profundidad*Diseno_2k_con$Velocidad)
 summary(Modelo_1)
+
+# grafica 
+
+# Graficar los efectos principales de Factor1
+MEPlot(Modelo_1, term = "Profundidad", design = design)
+
+
+
+
+
 
 ## Solamente son significativos los efectos principales
 
@@ -75,3 +85,52 @@ combinaciones$Replica <- replicaciones
 
 # Muestra el arreglo factorial con réplicas
 print(combinaciones)
+
+
+
+# Define los niveles de tus factores
+factor1_levels <- c("A", "B", "C", "D")
+factor2_levels <- c("X", "Y", "Z")
+
+# Crea un vector de réplicas (en este caso, 3 réplicas)
+num_replicas <- 3
+
+# Inicializa una matriz vacía para almacenar el arreglo factorial
+arr_fact <- data.frame()
+
+# Genera las combinaciones de niveles y agrega réplicas
+for (replica in 1:num_replicas) {
+  combinations <- expand.grid(Factor1 = factor1_levels, Factor2 = factor2_levels)
+  combinations$Replica <- replica
+  arr_fact <- rbind(arr_fact, combinations)
+}
+
+# Restablece los índices de fila
+row.names(arr_fact) <- NULL
+
+# Muestra el arreglo factorial con réplicas
+print(arr_fact)
+Diseno_2k_con <- read_excel("GitHub/estadistica-inferencia/DOE-UCuenca/dATOS-2k EJEMPLO VELOCIDAD PROFU.xlsx",
+                        sheet = "2k con replicas")
+attach(Diseno_2k_con)
+names(Diseno_2k_con)
+library(FrF2)
+
+arr_fact$Acabado <- Diseno_2k_con$Acabado 
+Tabla <- arr_fact
+## Gráficas de efectos principales
+MEPlot(Tabla, lwd = 2)
+abline(h=0, col="red")
+
+
+# Definir los niveles de tus factores
+factor1_levels <- c("A", "B", "C")
+factor2_levels <- c("X", "Y", "Z")
+
+# Generar el diseño factorial
+design <- FrF2(2, factor1_levels, factor2_levels)
+# Ajustar un modelo lineal a tus datos
+modelo <- lm(Y ~ Factor1 * Factor2, data = design)
+
+# Graficar los efectos principales de Factor1
+MEPlot(modelo, term = "Factor1", design = design)
