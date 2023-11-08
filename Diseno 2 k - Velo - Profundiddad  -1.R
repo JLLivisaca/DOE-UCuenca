@@ -14,5 +14,7 @@ names(Datos_2k)
 Modelo_2k <-  aov(Acabado ~ Profundidad*Velocidad)
 summary(Modelo_2k)
 TukeyHSD(Modelo_2k,ordered = F)
+plot(TukeyHSD(Modelo_2k,"Profundidad",ordered = F)) # Grafica
+plot(TukeyHSD(Modelo_2k,"Velocidad",ordered = F)) # Grafica
 
 
