@@ -110,6 +110,7 @@ row.names(arr_fact) <- NULL
 
 # Muestra el arreglo factorial con réplicas
 print(arr_fact)
+
 Diseno_2k_con <- read_excel("GitHub/estadistica-inferencia/DOE-UCuenca/dATOS-2k EJEMPLO VELOCIDAD PROFU.xlsx",
                         sheet = "2k con replicas")
 attach(Diseno_2k_con)
@@ -122,10 +123,10 @@ Tabla <- arr_fact
 MEPlot(Tabla, lwd = 2)
 abline(h=0, col="red")
 
-
+library(FrF2)
 # Definir los niveles de tus factores
 factor1_levels <- c("A", "B", "C")
-factor2_levels <- c("X", "Y", "Z")
+factor2_levels <- c("X", "Y")
 
 # Generar el diseño factorial
 design <- FrF2(2, factor1_levels, factor2_levels)
