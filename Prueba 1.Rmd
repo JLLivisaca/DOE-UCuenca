@@ -1,0 +1,147 @@
+---
+title: "Prueba 1 - sep23 -feb 24"
+author: "Juan Llivisaca"
+date: "2023-11-01"
+output: word_document
+---
+#Problema 1
+
+```{r}
+# Problema 1
+library(readxl)
+Problem_1 <- read_excel("D:/Diseño de experimentos/Alumnos/Sep 23 - Feb 24/DATOS - PRUEBA 1.xlsx", 
+    sheet = "P1")
+Problem_1$Inspector <-  as.factor(Problem_1$Inspector)
+Problem_1$Escala <-  as.factor (Problem_1$Escala)
+Problem_1$Cuadrado <- as.factor(Problem_1$Cuadrado)
+# Modelo Cuadrado latino
+AnovaModel.1 <- (aov(Peso ~ Cuadrado+Escala+Inspector, data=Problem_1))
+Anova(AnovaModel.1)
+TukeyHSD(AnovaModel.1)
+old.oma <- par(oma=c(0,5,0,0))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Cuadrado = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Escala = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+remove(.Pairs)
+.Pairs <- glht(AnovaModel.1, linfct = mcp(Inspector = "Tukey"))
+confint(.Pairs) # confidence intervals
+plot(confint(.Pairs))
+mtext('Cuadrado')
+par(old.oma)
+remove(.Pairs)
+#medias con RCMDR
+library(abind, pos=24)
+library(e1071, pos=25)
+numSummary(Problem_1[,"Peso", drop=FALSE], groups=Problem_1$Cuadrado, 
+  statistics=c("mean", "sd", "IQR", "quantiles"), quantiles=c(0,.25,.5,.75,1))
+
+library(PASWR)
+library(asbio)
+oneway.plots(Problem_1$Peso, Problem_1$Cuadrado) # Literal C
+
+```
+
+a) Si hay una diferencia entre los proveedores. Ya que el nivel de significancia fue de 0.02, comparado con un alfa de 0.05, se llega a esa conclusión.
+
+b) Si hay diferencia en las escalas, con un nivel de significancia de 0.006711, comparado con un alfa de 0.05. En cuanto a los inspectores no hay diferencia ya que el nivel de significancia fue de 0.5
+
+c) Según las graficas es el proveedor A
+
+d) 
+```{r}
+library(readxl)
+Problem_1_mod <- read_excel("D:/Diseño de experimentos/Alumnos/Sep 23 - Feb 24/DATOS - PRUEBA 1.xlsx", 
+    sheet = "P1-Mod")
+Problem_1_mod$Inspector <-  as.factor(Problem_1_mod$Inspector)
+Problem_1_mod$Escala <-  as.factor (Problem_1_mod$Escala)
+Problem_1_mod$Cuadrado <- as.factor(Problem_1_mod$Cuadrado)
+AnovaModel.1_mod <- (aov(Peso ~ Cuadrado+Escala+Inspector, data=Problem_1_mod))
+summary(AnovaModel.1_mod)
+TukeyHSD(AnovaModel.1_mod)
+
+
+```
+#Problema 2
+
+```{r}
+# 2.48
+1- (pt(c(2.48), df=9, lower.tail=TRUE)) 
+(pt(c(2.48), df=9, lower.tail=FALSE)) 
+# -3.95
+1- (pt(c(-3.95), df=9, lower.tail=TRUE)) 
+# 2.69
+1- (pt(c(2.69), df=9, lower.tail=TRUE)) 
+ 
+
+```
+Para el datos de 2.48, se tiene un p valor de 0.01749572
+Para el datos de -3.95, se tiene un p valor de 0.9983226
+Para el datos de 2.69, se tiene un p valor de 0.01239826
+
+#Problema 3
+
+```{r}
+# Tratamientos 
+SC_Tratamiento <-  600
+SC_Bloque <- 850
+SC_Error <-  500
+(SC_Total <-  SC_Tratamiento+SC_Bloque+SC_Error)
+
+(GL_Tratamiento <- 3 -1) # 3 tratamientos
+(GL_Bloque <- 5-1) # 5 bloques 
+(GL_Error <-  GL_Tratamiento*GL_Bloque) #(k-1)*(b-1)
+(GL_Total <-  14)
+
+# Cuadrados medios
+(CM_Tratamientos= SC_Tratamiento/GL_Tratamiento)
+(CM_Bloque= SC_Tratamiento/GL_Bloque)
+(CM_Error= SC_Error/GL_Error)
+# F
+
+(F0 <- CM_Tratamientos/ CM_Error)
+(F1 <-CM_Bloque/ CM_Error  )
+
+# Probabilidad F0
+1- pf(c(F0), df1=2, df2=4, lower.tail=TRUE)
+# Probabilidad F1
+1- pf(c(F1), df1=4, df2=8, lower.tail=TRUE)
+
+```
+#Problema 4
+
+```{r}
+library(readxl)
+Problem_4 <- read_excel("D:/Diseño de experimentos/Alumnos/Sep 23 - Feb 24/DATOS - PRUEBA 1.xlsx", 
+    sheet = "P4")
+Problem_4$Densidad <-  as.factor(Problem_4$Densidad)
+# ANOVA
+AnovaModel.4 <- aov(Temperatura ~ Densidad, data=Problem_4)
+summary(AnovaModel.4)
+with(Problem_4, numSummary(Temperatura, groups=Densidad, 
+  statistics=c("mean", "sd")))
+local({
+  .Pairs <- glht(AnovaModel.4, linfct = mcp(Densidad = "Tukey"))
+  print(summary(.Pairs)) # pairwise tests
+  print(confint(.Pairs, level=0.95)) # confidence intervals
+  print(cld(.Pairs, level=0.05)) # compact letter display
+  old.oma <- par(oma=c(0, 5, 0, 0))
+  plot(confint(.Pairs))
+  par(old.oma)
+})
+oneway.test(Temperatura ~ Densidad, data=Problem_4) # Welch test
+# comparación LSD
+library(asbio)
+(pairw.anova(x=Problem_4$Densidad, y=Problem_4$Temperatura, conf.level = 0.95, method="lsd")) # COmparación LSD
+# Homocedasticidad
+library(lmtest)
+
+hmctest(AnovaModel.4$residuals ~ Problem_4$Temperatura)
+
+
+```
+a) No afecta la temperatura, ya que el p valor es mayor al alfa
+b) No hay diferencia en las medias de las temperaturas comparadas
+c) Si hay homocedasticidad ya que el p valor es de 0.594
