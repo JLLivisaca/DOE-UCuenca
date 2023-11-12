@@ -68,7 +68,7 @@ TukeyHSD(AnovaModel.1_mod)
 
 ```{r}
 # 2.48
-1- (pt(c(2.48), df=9, lower.tail=TRUE)) 
+(1- (pt(c(2.48), df=9, lower.tail=TRUE)) )
 (pt(c(2.48), df=9, lower.tail=FALSE)) 
 # -3.95
 1- (pt(c(-3.95), df=9, lower.tail=TRUE)) 
@@ -97,7 +97,7 @@ SC_Error <-  500
 
 # Cuadrados medios
 (CM_Tratamientos= SC_Tratamiento/GL_Tratamiento)
-(CM_Bloque= SC_Tratamiento/GL_Bloque)
+(CM_Bloque= SC_Bloque/GL_Bloque)
 (CM_Error= SC_Error/GL_Error)
 # F
 
