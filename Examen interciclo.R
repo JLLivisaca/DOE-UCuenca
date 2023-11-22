@@ -81,7 +81,7 @@ Caucho$Tiempo_Cura <-  as.factor(Caucho$Tiempo_Cura)
 Caucho$Acelerante <-  as.factor(Caucho$Acelerante)
 attach(Caucho)
 factorial <- (aov(Resistencia ~ Acelerante*Tiempo_Cura, data=Caucho))
-Anova(factorial)
+summary(factorial)
 
 ######################
 #### RESPUESTAS ####
