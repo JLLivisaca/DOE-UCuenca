@@ -138,7 +138,7 @@ res.agnes <- agnes(
 
 ### Para visualizar la salida
 
-fviz_dend(res.agnes, cex = 0.6, k = 4) # por los 4 clústers
+fviz_dend(res.agnes, cex = 0.6, k = 2) # por los 2 clústers es mejor esto
 
 #### DIVISIVE ANALYSIS CLUSTERING
 ## Lo inverso de la agrupación aglomerativa es la agrupación divisiva,
@@ -154,7 +154,7 @@ res.diana <- diana(x = df, # data matrix
 )
 
 ### Para visualizar la salida
-fviz_dend(res.diana, cex = 0.6, k = 4)
+fviz_dend(res.diana, cex = 0.6, k = 2) # Es mejor aplicar a dos grupos, pero se pueden hacer 3
 
 
 library(dendextend)
@@ -312,7 +312,7 @@ fviz_dend(
 library(igraph)
 fviz_dend(
       hc,
-      k = 4,
+      k = 2,
       k_colors = "jco",
       type = "phylogenic",
       repel = TRUE
@@ -322,7 +322,7 @@ fviz_dend(
 library(igraph)
 fviz_dend(
       hc,
-      k = 4,
+      k = 2,
       # Cut in four groups
       k_colors = "jco",
       type = "phylogenic",
@@ -330,23 +330,20 @@ fviz_dend(
       phylo_layout = "layout.gem"
 )
 
-## DENDOGRAMAS PARA GRANDES CONJUNTOS DE DATOS
-### Para Hacer Zoom
-fviz_dend(hc, xlim = c(1, 20), ylim = c(1, 8))
 
 ### Trazado de un subarbol
 
 #### Cortar el dendrograma y visualizar la versión truncada:
 # Create a plot of the whole dendrogram, and extract the dendrogram data
 dend_plot <- fviz_dend(hc,
-                       k = 4,
+                       k = 2,
                        # Cut in four groups
                        cex = 0.5,
                        # label size
                        k_colors = "jco")
 dend_data <- attr(dend_plot, "dendrogram") # Extract dendrogram data
-# Cut the dendrogram at height h = 10
-dend_cuts <- cut(dend_data, h = 10)
+# Cut the dendrogram at height h = 2
+dend_cuts <- cut(dend_data, h = 2)
 # Visualize the truncated version containing
 # two branches
 fviz_dend(dend_cuts$upper)
@@ -361,13 +358,5 @@ fviz_dend(dend_cuts$lower[[1]], main = "Subtree 1")
 # Plot subtree 2
 fviz_dend(dend_cuts$lower[[2]], main = "Subtree 2")
 
-# Plot subtree 2, en forma circular 
-fviz_dend(dend_cuts$lower[[2]], type = "circular")
 
-#### Guardando en pdf un dendograma sin perder resolucion 
-
-pdf("dendrogram.pdf", width=30, height=15) # Open a PDF
-p <- fviz_dend(hc, k = 4, cex = 1, k_colors = "jco" ) # Do plotting
-print(p)
-dev.off() # Close the PDF
 
