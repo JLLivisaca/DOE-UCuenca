@@ -81,7 +81,7 @@ res.hc2 <- hclust(res.dist, method = "average")
 cor(res.dist, cophenetic(res.hc2))
 
 # Cortamos el dendograma (arbol jerarquico ) en 4 grupos
-grp <- cutree(res.hc, k = 4)
+grp <- cutree(res.hc, k = 6)
 head(grp, n = 4)
 
 # Para ver el Number of members in each cluster
@@ -98,7 +98,7 @@ library(factoextra)
 # Cut in 4 groups and color by groups
 fviz_dend(
       res.hc,
-      k = 4,
+      k = 2,
       # Cut in four groups
       cex = 0.5,
       # label size
