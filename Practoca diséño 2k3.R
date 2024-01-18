@@ -20,5 +20,11 @@ B= factor(B)
 C= factor(C)
 
 # modelo factorial
-
 modelo.2k3 <-  lm(datos.2k$`(Y)` ~ (A+B+C)^3) # el símbolo de ^ no significa potencia, si no que la fórmula de lm va a tomarle un nivel 3
+anova.modelo <- aov(modelo.2k3)
+summary(anova.modelo)
+
+# Graficas
+MEPlot(modelo.2k3)
+IAPlot(modelo.2k3.1, las = 1) # Revisar interacción
+DanielPlot(modelo.2k3)
